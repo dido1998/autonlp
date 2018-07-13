@@ -84,7 +84,7 @@ def run(data,numepochs,save_model_after_n_epochs,num_layers,lr,rnn_block,num_uni
 	#execute the following two lines to get the glove embeddings
 	#wget http://nlp.stanford.edu/data/glove.6B.zip 
 	#unzip glove.6B.zip -d content
-	words_to_index, index_to_words, word_to_vec_map = read_glove_vecs('generation/glove.txt')
+	words_to_index, index_to_words, word_to_vec_map = read_glove_vecs('content/glove.6B.300d.txt')
 	embed_matrix1 = np.zeros((vocab_size, 300))#contains glove vectors for each word in vocabulary
 	for word,index in dictionary.items():
 		try:
