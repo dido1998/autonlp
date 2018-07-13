@@ -90,7 +90,7 @@ class Generation():
 			print('making directory '+str(Flags.model_save_path)+' to save models')
 		except:
 			print('saving model to '+str(Flags.model_save_path)+' directory')
-			if Flags.restore==False:
+			if Flags.restore_model==False:
 				folder = Flags.model_save_path
 				for the_file in os.listdir(folder):
 					file_path = os.path.join(folder, the_file)
@@ -101,15 +101,15 @@ class Generation():
 					except Exception as e:
 						pass
 		 
-		runner.run(data,Flags.num_epochs,Flags.save_model_after_n_epochs,Flags.num_rnn_layers,Flags.learning_rate,Flags.rnn_block,Flags.num_units,Flags.fc1,Flags.fc2,len(dictionary),Flags.model_save_path,dictionary,len(data),Flags.device)
+		runner.run(data,Flags.num_epochs,Flags.save_model_after_n_epochs,Flags.num_rnn_layers,Flags.learning_rate,Flags.rnn_block,Flags.num_units,Flags.fc1,Flags.fc2,len(dictionary),Flags.model_save_path,dictionary,len(data),Flags.device,Flags.max_seq_len_at_inference,Flags.glove_vector_location,testduringtrain=Flags.testduringtrain,keep_prob=Flags.keep_prob,restore=Flags.restore_model,minibatch_size=Flags.minibatch_size)
 
 
 
 if __name__=='__main__':
-	flags.DEFINE_string("datafile",'generation/image_coco.txt','file which has the data')
-	flags.DEFINE_string("task",'generation','currently on language generation is supported')
+	flags.DEFINE_string("datafile",'/home/aniket/nlp/bbc/image_coco.txt','file which has the data')
+	flags.DEFINE_string("task",'generation','currently only language generation is supported')
 	flags.DEFINE_integer("num_epochs",10,'number of epochs')
-	flags.DEFINE_integer('save_model_after_n_epochs',2,'number of epochs after which to save model')
+	flags.DEFINE_integer('save_model_after_n_epochs',1,'number of epochs after which to save model')
 	#generation specific parameters
 	flags.DEFINE_string("rnn_block",'LSTM','can be GRU or LSTM')
 	flags.DEFINE_integer('num_units',32,'number of units in each lstm layer')
@@ -117,10 +117,17 @@ if __name__=='__main__':
 	flags.DEFINE_integer("num_rnn_layers",2,"number of layers in the recurrent neural network")
 	flags.DEFINE_integer("fc1",128,'num units in first fc layer')
 	flags.DEFINE_integer("fc2",256,'num units in second fc layer')
+	flags.DEFINE_integer('minibatch_size',32,'batch size to use')
 	flags.DEFINE_float('learning_rate',5e-4,'Learning rate for generation')
+	flags.DEFINE_float('keep_prob',0.5,'dropout keep probability')
 	flags.DEFINE_string('model_save_path','generation/model','directory to save model')
 	flags.DEFINE_bool('testduringtrain',True,'enable testing during training')
 	flags.DEFINE_bool('restore_model',False,'True for restore model , False for starting new model')
 	flags.DEFINE_string('device','/device:CPU:0','device to train the model on')
+	flags.DEFINE_integer('max_seq_len_at_inference',45,'set this to maximum length of an instance in your training set')
+	flags.DEFINE_string('glove_vector_location','/home/aniket/nlp/bbc/glove.txt','location of the pretrained glove vectors')
+	###glove vectors can be obtained by executing the following commands
+	###wget http://nlp.stanford.edu/data/glove.6B.zip 
+	###unzip glove.6B.zip -d content
 	g=Generation()
 	g.run()
