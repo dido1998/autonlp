@@ -1,14 +1,14 @@
-##Text generation
+## Text generation
 
 The model consists of multilayered lstm cells with fully connected layers on the top.
 
-##example
+## Example
 ```
 python3 main.py --task generation --datafile <datafile> --num_epochs <num_epochs> --rnn_block LSTM --num_units <num_units> --num_rnn_layers <num layers>
 ```
 This command has to be executed from the directory containing main.py
 
-##Results
+## Results
 I trained the lstm model using the following parameters-
 num_layers:4
 num_features(rnn):512
