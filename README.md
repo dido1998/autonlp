@@ -21,5 +21,5 @@ git clone https://github.com/dido1998/autonlp
 ```
 ### Examples
 ```
-python3 main.py --datafile <your_data_file> --num_epochs <num_epochs> --model_save_path <path> 
+python3 main.py --task <task> --datafile <your_data_file> --num_epochs <num_epochs> --model_save_path <path> --device <device name>
 ```
