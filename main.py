@@ -123,9 +123,9 @@ if __name__=='__main__':
 	flags.DEFINE_string('model_save_path','generation/model','directory to save model')
 	flags.DEFINE_bool('testduringtrain',True,'enable testing during training')
 	flags.DEFINE_bool('restore_model',False,'True for restore model , False for starting new model')
-	flags.DEFINE_string('device','/device:CPU:0','device to train the model on')
+	flags.DEFINE_string('device','/device:GPU:0','device to train the model on')
 	flags.DEFINE_integer('max_seq_len_at_inference',45,'set this to maximum length of an instance in your training set')
-	flags.DEFINE_string('glove_vector_location','/home/aniket/nlp/bbc/glove.txt','location of the pretrained glove vectors')
+	flags.DEFINE_string('glove_vector_location','content/glove.6B.300d.txt','location of the pretrained glove vectors')
 	###glove vectors can be obtained by executing the following commands
 	###wget http://nlp.stanford.edu/data/glove.6B.zip 
 	###unzip glove.6B.zip -d content
