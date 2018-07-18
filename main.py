@@ -172,7 +172,7 @@ class Inference():
 						elif os.path.isdir(file_path): shutil.rmtree(file_path)
 					except Exception as e:
 						pass
-			inf_runner.run(sentence1,sentence2,max1,max2,label,Flags.num_classes,Flags.num_epochs,Flags.save_model_after_n_epochs,Flags.num_rnn_layers,Flags.learning_rate,Flags.num_units,Flags.model_save_path,dictionary,Flags.device,Flags.glove_vector_location,len(dictionary),Flags.acc_file,Flags.loss_file,testduringtrain=Flags.testduringtrain,keep_prob=Flags.keep_prob,restore=Flags.restore_model,minibatch_size=Flags.minibatch_size,trainingsetsize=Flags.inf_training_set_size)
+			inf_runner.run(sentence1,sentence2,max1,max2,label,Flags.num_classes,Flags.num_epochs,Flags.save_model_after_n_epochs,Flags.num_rnn_layers,Flags.learning_rate,Flags.num_units,Flags.model_save_path,dictionary,Flags.device,Flags.glove_vector_location,len(dictionary),Flags.acc_file,Flags.loss_file,testduringtrain=Flags.testduringtrain,keep_prob=Flags.keep_prob,restore=Flags.restore_model,minibatch_size=Flags.inf_minibatch_size,trainingsetsize=Flags.inf_training_set_size)
 
 
 if __name__=='__main__':
