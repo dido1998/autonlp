@@ -31,7 +31,7 @@ class basic_rnn_model():
 			with tf.variable_scope(scope, reuse=reuse):
 				cell=None
 				if rnn_block is 'LSTM':
-					cell =[tf.contrib.rnn.DropoutWrapper(tf.contrib.rnn.BasicLSTMCell (size,activation=tf.nn.relu),state_keep_prob=self.keep_prob) for size in [num_units]*num_layers]  
+					cell =[tf.contrib.rnn.DropoutWrapper(tf.contrib.rnn.BasicLSTMCell (size,activation=tf.nn.relu),output_keep_prob=self.keep_prob) for size in [num_units]*num_layers]  
 				else:
 					cell =[tf.contrib.rnn.DropoutWrapper(tf.contrib.rnn.GRUCell (size,activation=tf.nn.relu),state_keep_prob=self.keep_prob) for size in [num_units]*num_layers]
 				cell = tf.nn.rnn_cell.MultiRNNCell(cell, state_is_tuple=True)
@@ -47,7 +47,7 @@ class basic_rnn_model():
 				    decoder=decoder,impute_finished=True, output_time_major=False,maximum_iterations=max_seq_len_at_inf
 				     )
 				return outputs[0]
-		self.train_outputs = decode(self.train_helper, 'decode',tf.shape(self.inputs)[0])
+		self.train_outputs = decode(self.train_helper, 'decode',tf.shape(self.embeddings_out)[0])
 		self.pred_outputs = decode(self.pred_helper, 'decode',tf.shape(self.starttoken)[0],reuse=True)
 		self.train_outputs=self.train_outputs[0]# train_outputs is tensor of shape [batch_size,sequence_length,vocab_size]
 
@@ -113,7 +113,7 @@ def run(data,numepochs,save_model_after_n_epochs,num_layers,lr,rnn_block,num_uni
 	if restore==True:
 		start_epoch_num=json_data['num_epochs_over']
 		latest_model_path=json_data['model_path']
-	meta_file.close()
+	#meta_file.close()
 	model=basic_rnn_model(num_layers,lr,rnn_block,embed_matrix1,endtoken,num_units,fc1,fc2,vocab_size,device,max_seq_len_at_inf)
 	
 	with tf.Session(graph=model.graph) as sess:
@@ -156,8 +156,11 @@ def run(data,numepochs,save_model_after_n_epochs,num_layers,lr,rnn_block,num_uni
 						c2+=1
 						c3+=1
 					c1+=1
-				loss,_=sess.run([model.loss,model.opt],feed_dict={model.sq:sqlen,model.keep_prob:keep_prob,model.weights:ws,model.starttoken:np.array([dictionary['<start>']]),model.inputs:inps,model.labels:lbs})
-				l+=loss
+				#print(inps)
+				#print(lbs)
+				tp,los,_=sess.run([model.grads,model.loss,model.opt],feed_dict={model.sq:sqlen,model.keep_prob:keep_prob,model.weights:ws,model.starttoken:np.array([dictionary['<start>']]),model.inputs:inps,model.labels:lbs})
+				print(tp)
+				l+=los
 
 			if testduringtrain==True:
 				f=sess.run(model.pred_outputs,feed_dict={model.starttoken:np.array([dictionary['<start>']]),model.keep_prob:1.0})
