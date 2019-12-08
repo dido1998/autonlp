@@ -1,5 +1,4 @@
 # autonlp
-# Project Title
 This is a repository devoted to natural language processing and various applications machine learning in NLP.
 Currently there is support for natural language generation and natural language inference.I hope to add more applications soon.
 
